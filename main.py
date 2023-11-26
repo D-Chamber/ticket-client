@@ -45,8 +45,8 @@ def buy_tickets(event, quantity):
 
 
 # post call for adding points (ADMIN ONLY)
-def add_points(points):
-    data = {"username": username, "points": points}
+def add_points(user, points):
+    data = {"username": user, "points": points}
     response = requests.post(f"{SERVER_URL}/add_points", json=data)
     return response.json()
 
@@ -118,8 +118,9 @@ def main():
                 print("The event ID input is not a valid ID")
         # calls point addition function (ADMIN ONLY)
         elif choice == '6' and logged_in and admin:
+            user = str(input("Who do you want to add points to? "))
             points = int(input("Please enter the amount of points you wish to add: "))
-            result = add_points(points)
+            result = add_points(user, points)
             if "message" in result:
                 print(f"{result['message']}, points: {result['points']}")
 
