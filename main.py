@@ -93,26 +93,35 @@ def main():
                 logged_in = False
         # calls available tickets function
         elif choice == '3' and logged_in:
-            print(check_available_tickets())
+            result = check_available_tickets()
+            if "message" in result:
+                print(f"{result['message']} \nEvent 1: {result['event1']} \nEvent 2:{result['event2']}")
             # Implement code to display available tickets
         # calls owned tickets function
         elif choice == '4' and logged_in:
-            print(check_owned_tickets())
+            result = check_owned_tickets()
+            if "message" in result:
+                print(f"{result['message']} \n {result['Tickets1']}\n {result['Tickets2']}")
         # calls ticket purchasing function
         elif choice == '5' and logged_in:
-            event = int(input("Enter the event ID: "))
-            quantity = int(input("Enter the quantity: "))
-            result = buy_tickets(event, quantity)
-            if "message" in result:
-                print(result["message"])
-                if "points" in result:
-                    print(f"Points: {result['points']}")
+            try:
+                event = int(input("Enter the event ID: "))
+                quantity = int(input("Enter the quantity: "))
+                result = buy_tickets(event, quantity)
+                if "message" in result:
+                    print(result["message"])
+                    if "points" in result:
+                        print(f"Points: {result['points']}")
+            except ValueError:
+                print("The event ID input is not a valid ID.")
+            except TypeError:
+                print("The event ID input is not a valid ID")
         # calls point addition function (ADMIN ONLY)
         elif choice == '6' and logged_in and admin:
             points = int(input("Please enter the amount of points you wish to add: "))
             result = add_points(points)
             if "message" in result:
-                print(f"{result["message"]}, points: {result["points"]}")
+                print(f"{result['message']}, points: {result['points']}")
 
         # Logout call
         elif choice == '7':
